@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Facebook } from "lucide-react";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [usePhoneLogin, setUsePhoneLogin] = useState(false);
   const navigate = useNavigate();
 
   const handleAuth = async (e) => {
@@ -41,9 +42,11 @@ function Login() {
         </h2>
         <form onSubmit={handleAuth} className="space-y-6">
           <div>
-            <label className="block text-gray-300 mb-2">Email</label>
+            <label className="block text-gray-300 mb-2">
+              {usePhoneLogin ? "Nomor HP" : "Email"}
+            </label>
             <input
-              type="email"
+              type={usePhoneLogin ? "tel" : "email"}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2 rounded bg-gray-700 text-white border border-gray-600 focus:border-yellow-500 focus:outline-none"
@@ -76,6 +79,30 @@ function Login() {
             {isSignUp ? "Sign Up" : "Login"}
           </button>
         </form>
+        <div className="w-full flex items-center justify-center gap-5 mt-6">
+          <button
+            onClick={() => setUsePhoneLogin(true)}
+            className={`p-2 rounded-full transition ${
+              usePhoneLogin ? "ring-2 ring-blue-500" : ""
+            }`}
+          >
+            <i
+              className="fa-brands fa-facebook fa-xl"
+              style={{ color: "#4267B2" }}
+            ></i>
+          </button>
+          <button
+            onClick={() => setUsePhoneLogin(false)}
+            className={`p-2 rounded-full transition ${
+              !usePhoneLogin ? "ring-2 ring-red-500" : ""
+            }`}
+          >
+            <i
+              className="fa-brands fa-google fa-xl"
+              style={{ color: "#DB4437" }}
+            ></i>
+          </button>
+        </div>
       </div>
     </div>
   );
